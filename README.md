@@ -12,7 +12,7 @@ curl -fsSL https://raw.githubusercontent.com/ElJoker63/qod/main/termux-slipstrea
 
 For update script:
 ```bash
-wget -https://raw.githubusercontent.com/ElJoker63/qod/main/qod -O qod.sh
+wget https://raw.githubusercontent.com/ElJoker63/qod/main/qod -O qod.sh
 ```
 
 This will:
