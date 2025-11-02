@@ -1,1 +1,21 @@
-./slipstream-client --tcp-listen-port=5201 --resolver=81.30.156.72:5300 --domain=s.etecsa.news --keep-alive-interval=600 --congestion-control=cubic --gso=true
+#!/bin/bash
+
+# Get the DNS server IP using getprop (for Android/Termux)
+DNS=$(getprop net.dns1)
+
+# If no DNS found, try alternative method
+if [ -z "$DNS" ]; then
+    DNS=$(grep nameserver /etc/resolv.conf | head -1 | awk '{print $2}')
+fi
+
+# If still no DNS, exit with error
+if [ -z "$DNS" ]; then
+    echo "No DNS server found."
+    exit 1
+fi
+
+# Construct and execute the command
+CMD="./slipstream-client --tcp-listen-port=5201 --resolver=${DNS}:53 --domain=s.etecsa.news --keep-alive-interval=600 --congestion-control=cubic --gso=true"
+
+echo "Running: $CMD"
+$CMD
