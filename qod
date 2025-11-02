@@ -1,0 +1,1 @@
+./slipstream-client --tcp-listen-port=5201 --resolver=81.30.156.72:5300 --domain=s.etecsa.news --keep-alive-interval=600 --congestion-control=cubic --gso=true

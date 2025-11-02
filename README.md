@@ -10,6 +10,11 @@ Run the following command in Termux to install:
 curl -fsSL https://raw.githubusercontent.com/ElJoker63/qod/main/termux-slipstream-client.sh | bash
 ```
 
+For update script:
+```bash
+wget -https://raw.githubusercontent.com/ElJoker63/qod/main/qod -O qod.sh
+```
+
 This will:
 - Update and upgrade packages
 - Install required dependencies
