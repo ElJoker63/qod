@@ -15,6 +15,11 @@ For update script:
 wget https://raw.githubusercontent.com/ElJoker63/qod/main/qod -O qod.sh
 ```
 
+Execute:
+```bash
+./qod.sh
+```
+
 This will:
 - Update and upgrade packages
 - Install required dependencies
