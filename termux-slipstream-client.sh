@@ -1,7 +1,7 @@
 #!/bin/bash
 
-pkg install wget
 pkg update && pkg upgrade -y
+pkg install wget
 pkg install openssl
 pkg install termux-tools
 pkg update && pkg upgrade -y
