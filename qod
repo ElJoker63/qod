@@ -1,21 +1,33 @@
 #!/bin/bash
 
-# Get the DNS server IP using getprop (for Android/Termux)
-DNS=$(getprop net.dns1)
+# Function to get DNS from ifconfig output
+get_dns_from_ifconfig() {
+    # Get DNS servers from ifconfig (for wlan0 or mobile data)
+    DNS=$(ifconfig 2>/dev/null | grep -A 10 "wlan0\|rmnet" | grep "inet " | head -1 | awk '{print $3}' | cut -d: -f2)
+    
+    # If no DNS from ifconfig, try alternative methods
+    if [ -z "$DNS" ]; then
+        DNS=$(getprop net.dns1 2>/dev/null)
+    fi
+    
+    if [ -z "$DNS" ]; then
+        DNS=$(cat /etc/resolv.conf 2>/dev/null | grep nameserver | head -1 | awk '{print $2}')
+    fi
+    
+    echo "$DNS"
+}
 
-# If no DNS found, try alternative method
-if [ -z "$DNS" ]; then
-    DNS=$(grep nameserver /etc/resolv.conf | head -1 | awk '{print $2}')
-fi
+# Get the DNS server IP
+DNS=$(get_dns_from_ifconfig)
 
-# If still no DNS, exit with error
+# If no DNS found, exit with error
 if [ -z "$DNS" ]; then
     echo "No DNS server found."
     exit 1
 fi
 
 # Construct and execute the command
-CMD="./slipstream-client --tcp-listen-port=5201 --resolver=${DNS}:53 --domain=s.etecsa.news --keep-alive-interval=600 --congestion-control=cubic --gso=true"
+CMD="./slipstream-client --tcp-listen-port=5201 --resolver=${DNS}:5300 --domain=s.etecsa.news --keep-alive-interval=600 --congestion-control=cubic --gso=true"
 
 echo "Running: $CMD"
 $CMD
